@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        td.orange {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+
+<table id="randomTable"></table>
+<button onclick="addRandomNumber()">Добавить число</button>
+
+<script>
+    // Задание 1
+    function generateRandomNumbers() {
+        const numbers = [];
+        for (let i = 0; i < 30; i++) {
+            numbers.push(Math.floor(Math.random() * 100));
+        }
+        return numbers;
+    }
+
+    function createTable(numbers) {
+        const table = document.getElementById('randomTable');
+        let rowCounter = 0;
+
+        for (let i = 0; i < numbers.length; i++) {
+            if (i % 6 === 0) {
+                const row = table.insertRow(rowCounter++);
+                for (let j = 0; j < 5; j++) {
+                    const cell = row.insertCell(j);
+                    const number = numbers[i + j];
+                    cell.textContent = number;
+
+                    if (number >= 50) {
+                        cell.classList.add('orange');
+                    }
+                }
+            }
+        }
+    }
+
+    // Инициализация таблицы при загрузке страницы
+    const randomNumbers = generateRandomNumbers();
+    createTable(randomNumbers);
+
+    // Задание 2
+    function addRandomNumber() {
+        const newNumber = Math.floor(Math.random() * 100);
+        const table = document.getElementById('randomTable');
+        const lastRow = table.rows[table.rows.length - 1];
+
+        if (lastRow.cells.length < 5) {
+            const cell = lastRow.insertCell(lastRow.cells.length);
+            cell.textContent = newNumber;
+
+            if (newNumber >= 50) {
+                cell.classList.add('orange');
+            }
+        } else {
+            const row = table.insertRow(table.rows.length);
+            const cell = row.insertCell(0);
+            cell.textContent = newNumber;
+
+            if (newNumber >= 50) {
+                cell.classList.add('orange');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
+
