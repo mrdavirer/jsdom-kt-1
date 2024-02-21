@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Number Table</title>
     <style>
         table {
             border-collapse: collapse;
-            width: 50%;
-            margin: 20px;
+            width: 100%;
         }
 
         table, th, td {
@@ -16,7 +14,7 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 15px;
             text-align: center;
         }
 
@@ -24,72 +22,55 @@
             background-color: orange;
         }
     </style>
-</head>
-<body>
-
-<table id="randomTable"></table>
-<button onclick="addRandomNumber()">Добавить число</button>
-
-<script>
-    // Задание 1
-    function generateRandomNumbers() {
-        const numbers = [];
-        for (let i = 0; i < 30; i++) {
-            numbers.push(Math.floor(Math.random() * 100));
+    <script>
+        function generateRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
-        return numbers;
-    }
 
-    function createTable(numbers) {
-        const table = document.getElementById('randomTable');
-        let rowCounter = 0;
+        function generateRandomArray(length) {
+            const randomArray = [];
+            for (let i = 0; i < length; i++) {
+                randomArray.push(generateRandomNumber(0, 99));
+            }
+            return randomArray;
+        }
 
-        for (let i = 0; i < numbers.length; i++) {
-            if (i % 6 === 0) {
-                const row = table.insertRow(rowCounter++);
-                for (let j = 0; j < 5; j++) {
-                    const cell = row.insertCell(j);
-                    const number = numbers[i + j];
-                    cell.textContent = number;
-
-                    if (number >= 50) {
+        function createTable(array) {
+            const table = document.createElement('table');
+            for (let i = 0; i < 5; i++) {
+                const row = table.insertRow();
+                for (let j = 0; j < 6; j++) {
+                    const cell = row.insertCell();
+                    const randomNumber = array[i * 6 + j];
+                    cell.textContent = randomNumber;
+                    if (randomNumber >= 50) {
                         cell.classList.add('orange');
                     }
                 }
             }
+            document.body.appendChild(table);
         }
-    }
 
-    const randomNumbers = generateRandomNumbers();
-    createTable(randomNumbers);
-
-    // Задание 2
-    function addRandomNumber() {
-        const newNumber = Math.floor(Math.random() * 100);
-        const table = document.getElementById('randomTable');
-        const lastRow = table.rows[table.rows.length - 1];
-
-        if (lastRow.cells.length < 5) {
-            const cell = lastRow.insertCell(lastRow.cells.length);
-            cell.textContent = newNumber;
-
-            if (newNumber >= 50) {
-                cell.classList.add('orange');
-            }
-        } else {
-            const row = table.insertRow(table.rows.length);
-            const cell = row.insertCell(0);
-            cell.textContent = newNumber;
-
-            if (newNumber >= 50) {
+        function addRandomNumberToTable() {
+            const table = document.querySelector('table');
+            const row = table.insertRow();
+            const cell = row.insertCell();
+            const randomNumber = generateRandomNumber(0, 99);
+            cell.textContent = randomNumber;
+            if (randomNumber >= 50) {
                 cell.classList.add('orange');
             }
         }
-    }
+    </script>
+</head>
+<body>
+
+<button onclick="addRandomNumberToTable()">Добавить число</button>
+
+<script>
+    const randomArray = generateRandomArray(30);
+    createTable(randomArray);
 </script>
 
 </body>
 </html>
-
-
-
